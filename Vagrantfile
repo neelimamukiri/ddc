@@ -4,14 +4,37 @@ require 'rubygems'
 require 'fileutils'
 require 'yaml'
 
-provision_hosts = <<SCRIPT
+docker_ee_repo = ENV['DOCKER_EE_REPO']
+
+provision_hosts_ee = <<SCRIPT
+rpm --import "https://sks-keyservers.net/pks/lookup?op=get&search=0xee6d536cf7dc86e2d7d56f59a178ac6c6238f52e"
+cat <<EOF > /etc/yum/vars/dockerurl
+$2
+EOF
+yum install -y yum-utils
+yum-config-manager \
+    --add-repo \
+        $2/docker-ee.repo
+yum makecache fast
+yum -y install docker-ee
+systemctl enable docker
+systemctl start docker
+systemctl -q is-active firewalld && systemctl stop firewalld
+systemctl -q is-enabled firewalld && systemctl disable firewalld
+usermod -a -G docker vagrant
+cat <<EOF > /etc/hosts
+$1
+EOF
+SCRIPT
+
+provision_hosts_ce = <<SCRIPT
 rpm --import "https://sks-keyservers.net/pks/lookup?op=get&search=0xee6d536cf7dc86e2d7d56f59a178ac6c6238f52e"
 yum install -y yum-utils
 yum-config-manager \
     --add-repo \
         https://download.docker.com/linux/centos/docker-ce.repo
 yum makecache fast
-yum install docker-ce -y
+yum -y install docker-ce
 systemctl enable docker
 systemctl start docker
 systemctl -q is-active firewalld && systemctl stop firewalld
@@ -30,9 +53,9 @@ docker run --rm --name ucp \
  --host-address $1 \
  --admin-username admin --admin-password AdminPassword --san $1
 docker swarm join-token manager | \
-  grep -A 20 "docker swarm join" > /vagrant/join_manager.sh
+  grep -A 20 "docker swarm join" > /shared/join_manager.sh
 docker swarm join-token worker | \
-  grep -A 20 "docker swarm join" > /vagrant/join_worker.sh
+  grep -A 20 "docker swarm join" > /shared/join_worker.sh
 SCRIPT
 
 provision_dtr = <<SCRIPT
@@ -43,8 +66,8 @@ docker run --rm \
 SCRIPT
 
 provision_worker = <<SCRIPT
-chmod +x /vagrant/join_worker.sh
-/vagrant/join_worker.sh
+chmod +x /shared/join_worker.sh
+/shared/join_worker.sh
 SCRIPT
 
 CENTOS = 'centos'.freeze
@@ -60,10 +83,8 @@ hosts = (0..num_nodes).inject(hosts) { |acc, elem| acc << base_ip + "#{elem} ucp
 
 VAGRANTFILE_API_VERSION = '2'.freeze
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  
   config.vm.box_check_update = false
-  config.vbguest.auto_update = false if Vagrant.has_plugin?('vagrant-vbguest')
-  config.vm.synced_folder "./", "/vagrant"
+  config.vm.synced_folder './export', '/shared'
 
   num_nodes.times do |n|
     node_name = node_names[n]
@@ -75,7 +96,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       c.vm.hostname = vm_name
       c.vm.network :private_network, ip: node_addr
       c.vm.network :private_network, ip: node_addr, virtualbox__intnet: 'true', auto_config: false
-      c.vm.provision :shell, inline: provision_hosts, args: [hosts]
+      if docker_ee_repo
+        c.vm.provision :shell, inline: provision_hosts_ee, args: [hosts, docker_ee_repo]
+      else
+        c.vm.provision :shell, inline: provision_hosts_ce, args: [hosts]
+      end
       if n.zero?
         c.vm.provider 'virtualbox' do |v|
           v.memory = 4096
