@@ -1,0 +1,37 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+require 'rubygems'
+require 'fileutils'
+require 'yaml'
+
+CENTOS = 'centos'.freeze
+num_nodes = 2
+start = 50
+base_ip = '192.168.2.'
+ucp_master = '192.168.2.' + start.to_s
+node_ips = Array.new(num_nodes) { |n| base_ip + (n + start).to_s }
+node_names = Array.new(num_nodes) { |n| "kismatic-node#{n}" }
+hosts = "127.0.0.1   localhost\n"
+hosts << "#{base_ip}0   netmaster\n"
+hosts = (0..num_nodes).inject(hosts) { |acc, elem| acc << base_ip + "#{elem} kismatic-node#{elem} \n" }
+
+VAGRANTFILE_API_VERSION = '2'.freeze
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box_check_update = false
+
+  num_nodes.times do |n|
+    node_name = node_names[n]
+    node_addr = node_ips[n]
+    config.vm.define vm_name = node_name do |c|
+      c.vm.box = 'centos/7'
+      config.ssh.insert_key = false
+      # configure ip address etc
+      c.vm.hostname = vm_name
+      c.vm.network :private_network, ip: node_addr
+      c.vm.network :private_network, ip: node_addr, virtualbox__intnet: 'true', auto_config: false
+      c.vm.provider 'virtualbox' do |v|
+        v.memory = 2048
+      end # v
+    end # c
+  end # role
+end # config
