@@ -4,8 +4,13 @@ require 'rubygems'
 require 'fileutils'
 require 'yaml'
 
+provision_hosts = <<SCRIPT
+cat <<EOF > /etc/hosts
+$1
+EOF
+SCRIPT
 CENTOS = 'centos'.freeze
-num_nodes = 2
+num_nodes = 3
 start = 50
 base_ip = '192.168.2.'
 ucp_master = '192.168.2.' + start.to_s
@@ -29,6 +34,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       c.vm.hostname = vm_name
       c.vm.network :private_network, ip: node_addr
       c.vm.network :private_network, ip: node_addr, virtualbox__intnet: 'true', auto_config: false
+      c.vm.provision :shell, inline: provision_hosts, args: [hosts]
       c.vm.provider 'virtualbox' do |v|
         v.memory = 2048
       end # v
