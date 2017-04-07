@@ -26,3 +26,5 @@
  | Runtime Integrity |  |  |  |  | 
  | Scale (pods) |  |  |  |  | 
  | Federation |  |  | Yes |  | 
+ | UI | UCP UI  | OpenShift UI | k8s dashboard | k8s dashboard | 
+ | Windows | --- |  |  | Yes | 
