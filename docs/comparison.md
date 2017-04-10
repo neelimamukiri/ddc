@@ -20,7 +20,7 @@
  | Content Trust | Built-in support | Currently not supported but its there in k8s roadmap | --- | ? |  --- | 
  | Build | docker build | S2I |  docker build |  custom build  | --- |  |  --- | 
  | Other features | Supports secrets, compose stacks | Supports other constructs(Template |  Secrets etc.) that are supported by K8S | Templates & Secrets |  |  Same as K8s |
- | Networking Stack (default and plugin support) |  |  |  | Callico | 
+ | Networking Stack (default and plugin support) |  |  |  | Callico | Flannel |
  | Control Plane update |  |  |  | Yes |  Scale, version update? |
  | Control Plane Repair(scale) |  |  |  |  | ??? |
  | Image Verification |  |  |  |  | No |
