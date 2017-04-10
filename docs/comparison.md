@@ -2,9 +2,10 @@
 
 <br>
 
- |  Stack/Feature  |  UCP  |  OpenShift   |   Kubernetes   |   Kismatic   |   Canonical   |  
+ |  Stack/Feature  |  <a href=https://docs.docker.com/datacenter/install/linux/>UCP</a>  |  <a href=https://github.com/openshift/openshift-ansible>OpenShift</a> <a href=https://install.openshift.com/></a>   |   <a href=https://github.com/kubernetes/kubernetes>Kubernetes</a>    |  <a href=https://github.com/apprenda/kismatic>Kismatic</a>   | <a href=https://www.ubuntu.com/containers/kubernetes>Canonical</a>  |  
  |  -------------  |  -------------  | -------------  | -------------  | -------------  |  -------------  | 
- | Installation | Pre-config + ucp join | Ansible based | kubeadm or kargo or bootkube | kismatic install | Cloud Provisioning with conjure-up/juju charms |
+ | Installation | Pre-config + ucp join | Ansible based | kubeadm or kargo or bootkube | kismatic install | conjure-up/juju charms |
+  | Provisioning | --- | --- | --- | --- | AWS, Rackspace, Google, Joyent, MAAS |
  | CLI | docker | oc/kubectl | kubectl |  kubectl | kubectl |
  | Registry | Built in - can be deployed as user wants | Bundled; or any registry implementing docker registry APIs including docker hub | --- | No | No |
  | Multi-tenancy | Not really, but there are labels  | Projects similar to K8S namespaces | Namespaces |  Namespaces | Namespaces |
