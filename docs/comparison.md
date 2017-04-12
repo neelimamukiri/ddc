@@ -9,7 +9,7 @@
  | CLI | docker | oc/kubectl | kubectl |  kubectl; kismatic(for cluster ops) | kubectl |
  | Registry | Built in - can be deployed as user wants | Bundled; or any registry implementing docker registry APIs including docker hub | --- | Docker Hub; Private docker registry | No |
  | Multi-tenancy | Not really, but there are labels  | Projects similar to K8S namespaces | Namespaces |  Namespaces | Namespaces |
- | Load Balancing | Routing mesh and service VIP to provide east-west and north-south load balancing | Service VIP for east-west |  Routers for north-south( uses Routes to resolve to pod IP) | No router |  | No router |
+ | Load Balancing | Routing mesh and service VIP to provide east-west and north-south load balancing | Service VIP for east-west |  Routers for north-south( uses Routes to resolve to pod IP) | No router; nginx for Ingress | No router |
  | Source Code Management | --- | CI/CD pipeline | --- | --- | --- | 
  | Scaling | Service Scaling | Pod scaling | Pod Scaling | Pod Scaling; Worker node could be added to cluster |  Pod Scaling | 
  | Updates | Service update | Multiple modes of update - blue/green, A/B, rolling and recreate | Pod level | Pod level  |  Pod level  | 
@@ -28,6 +28,6 @@
  | Scale (pods) |  |  |  |  | 
  | Federation |  |  | Yes |  | Yes | 
  | UI | UCP UI  | OpenShift UI | k8s dashboard | k8s dashboard | k8s dashboard | 
- | Windows | --- |  |  | Yes | Yes | 
- | Logging | --- |  |  | ELK | |
- | Monitoring | --- |  |  |  | |
+ | Windows | --- |  |  | Yes? | Yes | 
+ | Logging | --- |  | No native support for cluster-level-logging | Same as k8s | ELK |
+ | Monitoring | --- |  | cAdvisor, Heapster | Same as k8s | |
