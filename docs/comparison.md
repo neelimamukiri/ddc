@@ -29,5 +29,6 @@
  | Federation |  |  | Yes |  | Yes | 
  | UI | UCP UI  | OpenShift UI | k8s dashboard | k8s dashboard | k8s dashboard | 
  | Windows | --- |  |  | Yes? | Yes | 
- | Logging | --- |  | No native support for cluster-level-logging | Same as k8s | ELK |
+ | Logging | --- |  | No native support for cluster-level-logging | Same as k8s |  |
  | Monitoring | --- |  | cAdvisor, Heapster | Same as k8s | |
+ | Supported OS |  |  |  | RHEL 7, CentOS 7, Ubuntu 16.04  | 
