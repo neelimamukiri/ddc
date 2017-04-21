@@ -2,10 +2,10 @@
 
 <br>
 
- |  Stack/Feature  |  <a href=https://docs.docker.com/datacenter/install/linux/>UCP</a>  |  <a href=https://github.com/openshift/openshift-ansible>OpenShift</a> <a href=https://install.openshift.com/></a>   |   <a href=https://github.com/kubernetes/kubernetes>Kubernetes</a>    |  <a href=https://github.com/apprenda/kismatic>Kismatic</a>   | <a href=https://www.ubuntu.com/containers/kubernetes>Canonical</a>  |  
- |  -------------  |  -------------  | -------------  | -------------  | -------------  |  -------------  | 
- | Installation | Pre-config + ucp join | Ansible based | kubeadm or kargo or bootkube | kismatic install | conjure-up/juju charms |
-  | Provisioning | --- | --- | --- | --- | AWS, Rackspace, Google, Joyent, MAAS |
+ |  Stack/Feature  |  <a href=https://docs.docker.com/datacenter/install/linux/>UCP</a>  |  <a href=https://github.com/openshift/openshift-ansible>OpenShift</a> <a href=https://install.openshift.com/></a>   |   <a href=https://github.com/kubernetes/kubernetes>Kubernetes</a>    |  <a href=https://github.com/apprenda/kismatic>Kismatic</a>   | <a href=https://www.ubuntu.com/containers/kubernetes>Canonical</a>  | <a href=https://coreos.com/tectonic/>Tectonic</a> | 
+ |  -------------  |  -------------  | -------------  | -------------  | -------------  |  -------------  | ------------- |
+ | Installation | Pre-config + ucp join | Ansible based | kubeadm or kargo or bootkube | kismatic install | conjure-up/juju charms | Graphical Installer, Terraform (alpha)
+  | Provisioning | --- | --- | --- | --- | AWS, Rackspace, Google, Joyent, MAAS | AWS, Bare metal, Azure (alpha), OpenStack(pre-alpha) |
  | CLI | docker | oc/kubectl | kubectl |  kubectl; kismatic(for cluster ops) | kubectl |
  | Registry | Built in - can be deployed as user wants | Bundled; or any registry implementing docker registry APIs including docker hub | --- | Docker Hub; Private docker registry | No |
  | Multi-tenancy | Not really, but there are labels  | Projects similar to K8S namespaces | Namespaces |  Namespaces | Namespaces |
@@ -16,19 +16,19 @@
  | Storage | Volume plugins | Same as K8S (PVs and PVCs) | Supported volume plugins | GlusterFS | 
  | Resource limits | Per Service | Quota/project and Limits/container | Per pod | Per pod | Per pod | 
  | RBAC | Rudimentary, supported through the docker API proxy. Can be expanded based on labels. | Granular RBAC(regular, system users and service accounts); cluster level and project level authzs supported | Beta RBAC | Same as K8S | Same as K8s |
- | Identity Providers  | LDAP |  LDAP, Basic AuthN(server to server), Request Header,  OpenID Connect,  Github, Google | Service Accounts & Users | Same as K8s |  Same as K8s |
+ | Identity Providers  | LDAP |  LDAP, Basic AuthN(server to server), Request Header,  OpenID Connect,  Github, Google | Service Accounts & Users | Same as K8s |  Same as K8s | OIDC based, supports LDAP, SAML2.0, GitHub, Google|
  | Content Trust | Built-in support | Currently not supported but its there in k8s roadmap | --- | --- |  --- | 
  | Build | docker build | S2I |  docker build |  custom build  | --- |  |  --- | 
- | Other features | Supports secrets, compose stacks | Supports other constructs(Template |  Secrets etc.) that are supported by K8S | Templates & Secrets |  |  Same as K8s |
+ | Other features | Supports secrets, compose stacks | Supports other constructs(Template |  Secrets etc.) that are supported by K8S | Templates & Secrets | Same as K8s |
  | Networking Stack (default and plugin support) |  |  |  | Calico | 
- | Control Plane update |  |  |  | Yes |  Scale, version update? |
+ | Control Plane update |  |  |  | Yes |  Scale, version update? | Yes |
  | Control Plane Repair(scale) |  |  |  | No | ??? |
  | Image Verification |  |  |  |  | No |
  | Runtime Integrity |  |  |  |  | No |
  | Scale (pods) |  |  |  |  | 
  | Federation |  |  | Yes |  | Yes | 
- | UI | UCP UI  | OpenShift UI | k8s dashboard | k8s dashboard | k8s dashboard | 
+ | UI | UCP UI  | OpenShift UI | k8s dashboard | k8s dashboard | k8s dashboard | Tectonic Console |
  | Windows | --- |  |  | Yes? | Yes | 
  | Logging | --- |  | No native support for cluster-level-logging | ELK? |  |
- | Monitoring | --- |  | cAdvisor, Heapster | Same as k8s | |
- | Supported OS |  |  |  | RHEL 7, CentOS 7, Ubuntu 16.04  | 
+ | Monitoring | --- |  | cAdvisor, Heapster | Same as k8s | | Prometheus |
+ | Supported OS |  |  |  | RHEL 7, CentOS 7, Ubuntu 16.04  | | Container Linux |
