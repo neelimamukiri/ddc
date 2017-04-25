@@ -6,29 +6,29 @@
  |  -------------  |  -------------  | -------------  | -------------  | -------------  |  -------------  | ------------- |
  | Installation | Pre-config + ucp join | Ansible based | kubeadm or kargo or bootkube | kismatic install | conjure-up/juju charms | Graphical Installer, Terraform (alpha)
   | Provisioning | --- | --- | --- | --- | AWS, Rackspace, Google, Joyent, MAAS | AWS, Bare metal, Azure (alpha), OpenStack(pre-alpha) |
- | CLI | docker | oc/kubectl | kubectl |  kubectl; kismatic(for cluster ops) | kubectl |
- | Registry | Built in - can be deployed as user wants | Bundled; or any registry implementing docker registry APIs including docker hub | --- | Docker Hub; Private docker registry | No |
- | Multi-tenancy | Not really, but there are labels  | Projects similar to K8S namespaces | Namespaces |  Namespaces | Namespaces |
- | Load Balancing | Routing mesh and service VIP to provide east-west and north-south load balancing | Service VIP for east-west |  Routers for north-south( uses Routes to resolve to pod IP) | No router; nginx for Ingress | No router |
- | Source Code Management | --- | CI/CD pipeline | --- | --- | --- | 
- | Scaling | Service Scaling | Pod scaling | Pod Scaling | Pod Scaling; Worker node could be added to cluster |  Pod Scaling | 
- | Updates | Service update | Multiple modes of update - blue/green, A/B, rolling and recreate | Pod level | Pod level  |  Pod level  | 
- | Storage | Volume plugins | Same as K8S (PVs and PVCs) | Supported volume plugins | GlusterFS | 
- | Resource limits | Per Service | Quota/project and Limits/container | Per pod | Per pod | Per pod | 
- | RBAC | Rudimentary, supported through the docker API proxy. Can be expanded based on labels. | Granular RBAC(regular, system users and service accounts); cluster level and project level authzs supported | Beta RBAC | Same as K8S | Same as K8s |
+ | CLI | docker | oc/kubectl | kubectl |  kubectl; kismatic(for cluster ops) | kubectl | kubectl |
+ | Registry | Built in - can be deployed as user wants | Bundled; or any registry implementing docker registry APIs including docker hub | --- | Docker Hub; Private docker registry | No | Quay |
+ | Multi-tenancy | Not really, but there are labels  | Projects similar to K8S namespaces | Namespaces |  Namespaces | Namespaces | Namespaces |
+ | Load Balancing | Routing mesh and service VIP to provide east-west and north-south load balancing | Service VIP for east-west |  Routers for north-south( uses Routes to resolve to pod IP) | No router; nginx for Ingress | No router |No router |
+ | Source Code Management | --- | CI/CD pipeline | --- | --- | --- | - |
+ | Scaling | Service Scaling | Pod scaling | Pod Scaling | Pod Scaling; Worker node could be added to cluster |  Pod Scaling | Pod Scaling | 
+ | Updates | Service update | Multiple modes of update - blue/green, A/B, rolling and recreate | Pod level | Pod level  |  Pod level  | Pod level  | 
+ | Storage | Volume plugins | Same as K8S (PVs and PVCs) | Supported volume plugins | GlusterFS | Same as K8S | Same as K8S |
+ | Resource limits | Per Service | Quota/project and Limits/container | Per pod | Per pod | Per pod | Per pod | 
+ | RBAC | Rudimentary, supported through the docker API proxy. Can be expanded based on labels. | Granular RBAC(regular, system users and service accounts); cluster level and project level authzs supported | Beta RBAC | Same as K8S | Same as K8s | Same as K8s|
  | Identity Providers  | LDAP |  LDAP, Basic AuthN(server to server), Request Header,  OpenID Connect,  Github, Google | Service Accounts & Users | Same as K8s |  Same as K8s | OIDC based, supports LDAP, SAML2.0, GitHub, Google|
- | Content Trust | Built-in support | Currently not supported but its there in k8s roadmap | --- | --- |  --- | 
- | Build | docker build | S2I |  docker build |  custom build  | --- |  |  --- | 
- | Other features | Supports secrets, compose stacks | Supports other constructs(Template |  Secrets etc.) that are supported by K8S | Templates & Secrets | Same as K8s |
- | Networking Stack (default and plugin support) |  |  |  | Calico | 
- | Control Plane update |  |  |  | Yes |  Scale, version update? | Yes |
- | Control Plane Repair(scale) |  |  |  | No | ??? |
- | Image Verification |  |  |  |  | No |
- | Runtime Integrity |  |  |  |  | No |
- | Scale (pods) |  |  |  |  | 
- | Federation |  |  | Yes |  | Yes | 
- | UI | UCP UI  | OpenShift UI | k8s dashboard | k8s dashboard | k8s dashboard | Tectonic Console |
- | Windows | --- |  |  | Yes? | Yes | 
- | Logging | --- |  | No native support for cluster-level-logging | ELK? |  |
+ | Content Trust | Built-in support | Currently not supported but its there in k8s roadmap | --- | --- |  --- | Clair | 
+ | Build | docker build | S2I |  docker build |  custom build  | --- | docker build |
+ | Other features | Supports secrets, compose stacks | Supports other constructs(Template |  Secrets etc.) that are supported by K8S | Templates & Secrets | Same as K8s | Same as k8s |
+ | Networking Stack (default and plugin support) |  |  |  | Calico ||  flannel |
+ | Control Plane update |  |  |  | Yes |  Scale, version update? | Yes | Yes |
+ | Control Plane Repair(scale) |  |  |  | No | ??? |  Yes |
+ | Image Verification |  |  |  |  | No | Clair |
+ | Runtime Integrity |  |  |  |  | No |-  |
+ | Scale (pods) |  |  |  |  | - | - | 
+ | Federation |  |  | Yes |  | Yes | Yes |
+ | UI | UCP UI  | OpenShift UI | k8s dashboard | k8s dashboard | k8s dashboard | Tectonic Console | 
+ | Windows | --- |  |  | Yes? | Yes | - |
+ | Logging | --- |  | No native support for cluster-level-logging | ELK? | _ | - |
  | Monitoring | --- |  | cAdvisor, Heapster | Same as k8s | | Prometheus |
  | Supported OS |  |  |  | RHEL 7, CentOS 7, Ubuntu 16.04  | | Container Linux |
